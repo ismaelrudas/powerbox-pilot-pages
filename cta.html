@@ -20,16 +20,20 @@ no identifica a quien visita.</p>
 /* POWERBOX_WEBCHAT_PAGES_R1 — Chatwoot Website widget (inbox 2 del piloto), sólo atribución. No es el agente de IA:
    quien responde es una persona en Chatwoot, después de que el visitante escriba. Contrato idéntico al que PowerBox
    lee del webhook: conversation.custom_attributes.pbx_origin (token de primer toque) y pbx_interaction, que sólo
-   puede DEGRADAR a controlled_test; un navegador no puede declarar una conversación real. */
+   puede DEGRADAR a controlled_test; un navegador no puede declarar una conversación real.
+   Resolución de origen: se valida cada candidato por separado; gana el primer VÁLIDO en el orden pbx_origin, ref.
+   Un pbx_origin presente pero inválido no opaca un ref válido. Probado en tests/cta-attribution.test.mjs. */
 (function () {
   var BASE_URL = 'https://ismaels-imac.taildb7c09.ts.net';
-  var WEBSITE_TOKEN = '__PBX_CHATWOOT_WEBSITE_TOKEN__'; /* se sustituye al activar; identificador público del widget por diseño de Chatwoot */
+  var WEBSITE_TOKEN = 'DJhpE5BhbmasA2pa3ZDcP8yv'; /* identificador público del widget por diseño de Chatwoot; no es una credencial */
   if (WEBSITE_TOKEN.slice(0, 2) === '__') return; /* marcador de posición presente: no se monta nada */
   var ORIGIN = /^pbx_[A-Za-z0-9_-]{22}$/;
   var q = new URLSearchParams(window.location.search);
   var attrs = {};
-  var origin = q.get('pbx_origin') || q.get('ref'); /* la página publicada por el motor enlaza con ?ref= */
-  if (origin && ORIGIN.test(origin)) attrs.pbx_origin = origin;
+  var candidates = [q.get('pbx_origin'), q.get('ref')]; /* la página publicada por el motor enlaza con ?ref= */
+  for (var i = 0; i < candidates.length; i++) {
+    if (typeof candidates[i] === 'string' && ORIGIN.test(candidates[i])) { attrs.pbx_origin = candidates[i]; break; }
+  }
   if (q.get('pbx_interaction') === 'controlled_test') attrs.pbx_interaction = 'controlled_test';
   window.chatwootSettings = { locale: 'es', position: 'right', type: 'standard' };
   window.addEventListener('chatwoot:ready', function () {

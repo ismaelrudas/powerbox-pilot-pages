@@ -1,0 +1,4 @@
+# GitHub Pages (Jekyll) publica `main`. Lo siguiente es soporte de desarrollo, no parte del sitio.
+exclude:
+  - tests
+  - package.json
