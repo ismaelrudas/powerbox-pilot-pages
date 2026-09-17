@@ -1,15 +1,44 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Piloto PowerBox — todavía no hay canal de contacto</title>
+<title>Piloto PowerBox — canal de contacto (demostración)</title>
 <style>:root{color-scheme:light dark;--ink:#1b1d21;--soft:#55595f;--bg:#fbfaf8;--accent:#0f5c4a}
 @media(prefers-color-scheme:dark){:root{--ink:#ecebe8;--soft:#a8aab0;--bg:#16181b;--accent:#6fd3ae}}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,"Segoe UI",system-ui,sans-serif}
 main{max-width:40rem;margin:0 auto;padding:3rem 1.25rem}h1{font-size:1.4rem}p{color:var(--soft)}
 code{font-size:.85em}</style></head><body><main>
 <h1>Esto es una demostración de piloto</h1>
-<p>La página de la que vienes fue generada por el motor de PowerBox SalesIA como demostración. <strong>Todavía
-no hay un canal de contacto activo</strong> conectado a este piloto, así que este enlace no envía nada a nadie
-y no inicia ninguna conversación.</p>
-<p>La referencia de origen viaja en la URL (<code>?ref=…</code>) únicamente para poder comprobar que la
-atribución funcionaría; no identifica a quien visita.</p>
-</main></body></html>
+<p>La página de la que vienes fue generada por el motor de PowerBox SalesIA como demostración. Si quieres
+continuar la conversación, abre el chat de la esquina inferior derecha: <strong>una persona te responde</strong>
+desde el piloto. No hay ningún agente automático respondiendo, y nadie te contactará si tú no escribes primero.</p>
+<p>Este chat es una <strong>superficie de piloto operada por PowerBox SalesIA</strong>. No es un canal oficial de
+la empresa nombrada en la página anterior ni está alojado en su dominio.</p>
+<p>La referencia de origen viaja en la URL (<code>?ref=…</code>) únicamente para saber de qué página vienes;
+no identifica a quien visita.</p>
+<noscript><p>El chat necesita JavaScript; sin él esta página no envía nada a nadie.</p></noscript>
+</main>
+<script>
+/* POWERBOX_WEBCHAT_PAGES_R1 — Chatwoot Website widget (inbox 2 del piloto), sólo atribución. No es el agente de IA:
+   quien responde es una persona en Chatwoot, después de que el visitante escriba. Contrato idéntico al que PowerBox
+   lee del webhook: conversation.custom_attributes.pbx_origin (token de primer toque) y pbx_interaction, que sólo
+   puede DEGRADAR a controlled_test; un navegador no puede declarar una conversación real. */
+(function () {
+  var BASE_URL = 'https://ismaels-imac.taildb7c09.ts.net';
+  var WEBSITE_TOKEN = '__PBX_CHATWOOT_WEBSITE_TOKEN__'; /* se sustituye al activar; identificador público del widget por diseño de Chatwoot */
+  if (WEBSITE_TOKEN.slice(0, 2) === '__') return; /* marcador de posición presente: no se monta nada */
+  var ORIGIN = /^pbx_[A-Za-z0-9_-]{22}$/;
+  var q = new URLSearchParams(window.location.search);
+  var attrs = {};
+  var origin = q.get('pbx_origin') || q.get('ref'); /* la página publicada por el motor enlaza con ?ref= */
+  if (origin && ORIGIN.test(origin)) attrs.pbx_origin = origin;
+  if (q.get('pbx_interaction') === 'controlled_test') attrs.pbx_interaction = 'controlled_test';
+  window.chatwootSettings = { locale: 'es', position: 'right', type: 'standard' };
+  window.addEventListener('chatwoot:ready', function () {
+    if (Object.keys(attrs).length > 0 && window.$chatwoot) window.$chatwoot.setConversationCustomAttributes(attrs);
+  });
+  var s = document.createElement('script');
+  s.src = BASE_URL + '/packs/js/sdk.js'; s.async = true; s.defer = true;
+  s.onload = function () { if (window.chatwootSDK) window.chatwootSDK.run({ websiteToken: WEBSITE_TOKEN, baseUrl: BASE_URL }); };
+  document.head.appendChild(s);
+})();
+</script>
+</body></html>
