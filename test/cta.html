@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>PRUEBA CONTROLADA — piloto PowerBox SalesIA (no es un canal real)</title>
+<style>:root{color-scheme:light dark;--ink:#1b1d21;--soft:#55595f;--bg:#fbfaf8;--accent:#0f5c4a;--warn:#8a3b00;--warnbg:#fff1e0}
+@media(prefers-color-scheme:dark){:root{--ink:#ecebe8;--soft:#a8aab0;--bg:#16181b;--accent:#6fd3ae;--warn:#ffb46b;--warnbg:#3a2410}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,"Segoe UI",system-ui,sans-serif}
+main{max-width:40rem;margin:0 auto;padding:3rem 1.25rem}h1{font-size:1.4rem}p{color:var(--soft)}
+.banner{background:var(--warnbg);color:var(--warn);border:1px solid var(--warn);border-radius:.5rem;padding:.75rem 1rem;font-weight:600}
+code{font-size:.85em}</style></head><body><main>
+<p class="banner">PRUEBA CONTROLADA · superficie interna del equipo PowerBox · no es un canal comercial ni de atención</p>
+<h1>Esto es una prueba controlada del copiloto PowerBox SalesIA</h1>
+<p>Esta página existe únicamente para que el equipo de PowerBox ejecute <strong>pruebas controladas</strong> de su
+copiloto de ventas con mensajes sintéticos. <strong>No es un canal de atención, no representa a ninguna empresa</strong>
+y ningún mensaje escrito aquí se trata como una solicitud real. Si has llegado por error, no escribas: nadie te
+atenderá comercialmente.</p>
+<p>Lo que ocurre con un mensaje de prueba: llega a un buzón de prueba separado del canal del piloto; el copiloto de
+PowerBox redacta, <strong>de forma privada y sólo para el operador humano</strong>, una nota con su análisis.
+<strong>Nada se responde automáticamente</strong> y ninguna nota llega a quien escribe.</p>
+<p>Todas las conversaciones de esta página quedan marcadas como <code>controlled_test</code> y se excluyen de
+cualquier métrica de mercado del piloto.</p>
+<noscript><p>El chat necesita JavaScript; sin él esta página no envía nada a nadie.</p></noscript>
+</main>
+<script>
+/* SALESIA_WEBCHAT_COPILOT_CONTROLLED_E2E_R1 — Chatwoot Website widget del inbox de PRUEBA CONTROLADA (inbox 3),
+   separado del inbox del piloto que monta cta.html. Misma resolución de origen que cta.html (gana el primer
+   candidato VÁLIDO en el orden pbx_origin, ref). Diferencia deliberada: el marcador pbx_interaction=controlled_test
+   va SIEMPRE y no depende de la URL, de modo que esta superficie no puede producir una conversación de mercado.
+   El motor además mapea el inbox 3 a controlled_test por configuración; el marcador del navegador sólo degrada.
+   Probado en tests/test-cta-controlled.test.mjs. */
+(function () {
+  var WEBSITE_TOKEN = 'ChJQj4Y3SYu5atEmKaK2X6Da'; /* identificador público del widget por diseño de Chatwoot; no es una credencial */
+  var BASE_URL = 'https://ismaels-imac.taildb7c09.ts.net';
+  if (WEBSITE_TOKEN.slice(0, 2) === '__') return; /* marcador de posición presente: no se monta nada */
+  var ORIGIN = /^pbx_[A-Za-z0-9_-]{22}$/;
+  var q = new URLSearchParams(window.location.search);
+  var attrs = { pbx_interaction: 'controlled_test' }; /* siempre: prueba controlada por construcción */
+  var candidates = [q.get('pbx_origin'), q.get('ref')];
+  for (var i = 0; i < candidates.length; i++) {
+    if (typeof candidates[i] === 'string' && ORIGIN.test(candidates[i])) { attrs.pbx_origin = candidates[i]; break; }
+  }
+  window.chatwootSettings = { locale: 'es', position: 'right', type: 'standard' };
+  window.addEventListener('chatwoot:ready', function () {
+    if (window.$chatwoot) window.$chatwoot.setConversationCustomAttributes(attrs);
+  });
+  var s = document.createElement('script');
+  s.src = BASE_URL + '/packs/js/sdk.js'; s.async = true; s.defer = true;
+  s.onload = function () { if (window.chatwootSDK) window.chatwootSDK.run({ websiteToken: WEBSITE_TOKEN, baseUrl: BASE_URL }); };
+  document.head.appendChild(s);
+})();
+</script></body></html>

@@ -18,3 +18,11 @@ nadie contacta a quien no escribe primero. La página pasa al chat, como atribut
 de origen de la URL (`?ref=…`), para atribuir de qué página viene el visitante; no identifica a la persona.
 El identificador público del widget está en la página **por diseño de Chatwoot**; no es una credencial. Ninguna
 conversación se publica aquí.
+
+## Superficie de prueba controlada (`test/cta.html`)
+
+`test/cta.html` es una **prueba controlada** del equipo PowerBox: monta el widget de un inbox de prueba separado
+(no el del piloto), lleva `noindex`, lo dice en su propio texto y marca **siempre** la conversación como
+`controlled_test`. No es un canal de atención ni representa a ninguna empresa; sus conversaciones se excluyen de
+cualquier métrica de mercado. El copiloto sólo escribe notas privadas para el operador; nada se responde
+automáticamente.
